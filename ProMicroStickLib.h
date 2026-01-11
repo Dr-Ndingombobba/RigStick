@@ -14,14 +14,14 @@ enum InputType {
 class ProMicroStickLib
 {
   public:
-    ProMicroStickLib(int pin);
+    ProMicroStickLib(bool debug);
     byte shiftIn(int myDataPin, int myClockPin);
     boolean getBit(byte myVarIn, int whatBit);
     byte setBit(byte myVarIn, byte whatBit, boolean s);
     void interpret(byte  input, InputType type, Joystick_ stick );
 
     private:
-    int _pin;
+    bool _debug;
     int getButtonNumber(InputType type, int index);
     String getButtonName(InputType type, int index);
     bool _currentStateTrg[8] = {1};

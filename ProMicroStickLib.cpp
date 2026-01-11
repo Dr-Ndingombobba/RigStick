@@ -79,9 +79,9 @@ int dmsIntButtons[8] = {
 
 
 
-ProMicroStickLib::ProMicroStickLib(int pin) {
+ProMicroStickLib::ProMicroStickLib(bool debug) {
 
-  _pin = pin;
+  _debug = debug;
 }
 
 
@@ -181,7 +181,7 @@ void ProMicroStickLib::interpret(byte input, InputType type, Joystick_ stick) {
         action = "pressed";
         stick.pressButton(button);
       }
-      Serial.println(this->getButtonName(type, n) + " " + action);
+      if (_debug) Serial.println(this->getButtonName(type, n) + " " + action);
 
       _currentState[type][n] = state;
     }

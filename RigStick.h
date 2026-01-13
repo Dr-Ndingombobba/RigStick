@@ -1,5 +1,5 @@
-#ifndef ProMicroStickLib_h
-#define ProMicroStickLib_h
+#ifndef RigStick_h
+#define RigStick_h
 
 #include "Arduino.h"
 #include "Joystick.h"
@@ -11,15 +11,16 @@ enum InputType {
 }; 
 
 
-class ProMicroStickLib
+class RigStick
 {
   public:
-    ProMicroStickLib(bool debug);
+    RigStick(bool debug);
     byte shiftIn(int myDataPin, int myClockPin);
     boolean getBit(byte myVarIn, int whatBit);
     byte setBit(byte myVarIn, byte whatBit, boolean s);
-    void interpret(byte  input, InputType type, Joystick_ stick );
-
+    void read(byte  input, InputType type, Joystick_ stick );
+    void setDebug(bool debug);
+    
     private:
     bool _debug;
     int getButtonNumber(InputType type, int index);

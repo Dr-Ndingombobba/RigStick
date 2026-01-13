@@ -1,6 +1,6 @@
 
 #include "Arduino.h"
-#include "ProMicroStickLib.h"
+#include "RigStick.h"
 #include "joystick.h"
 
 
@@ -79,13 +79,13 @@ int dmsIntButtons[8] = {
 
 
 
-ProMicroStickLib::ProMicroStickLib(bool debug) {
+RigStick::RigStick(bool debug) {
 
   _debug = debug;
 }
 
 
-byte ProMicroStickLib::shiftIn(int myDataPin, int myClockPin) {
+byte RigStick::shiftIn(int myDataPin, int myClockPin) {
 
   int i;
   int temp = 0;
@@ -114,12 +114,12 @@ byte ProMicroStickLib::shiftIn(int myDataPin, int myClockPin) {
   return myDataIn;
 }
 
-boolean ProMicroStickLib::getBit(byte myVarIn, int whatBit) {
+boolean RigStick::getBit(byte myVarIn, int whatBit) {
 
   return ((myVarIn >> whatBit) & 0x01);
 }
 
-byte ProMicroStickLib::setBit(byte myVarIn, byte whatBit, boolean s) {
+byte RigStick::setBit(byte myVarIn, byte whatBit, boolean s) {
 
   if (s) {
     myVarIn = myVarIn | (1 << whatBit);
@@ -130,7 +130,7 @@ byte ProMicroStickLib::setBit(byte myVarIn, byte whatBit, boolean s) {
   return myVarIn;
 }
 
-int ProMicroStickLib::getButtonNumber(InputType type, int index) {
+int RigStick::getButtonNumber(InputType type, int index) {
 
   switch (type) {
     case TRG:
@@ -147,7 +147,7 @@ int ProMicroStickLib::getButtonNumber(InputType type, int index) {
   };
 }
 
-String ProMicroStickLib::getButtonName(InputType type, int index) {
+String RigStick::getButtonName(InputType type, int index) {
 
   switch (type) {
     case TRG:
@@ -165,7 +165,7 @@ String ProMicroStickLib::getButtonName(InputType type, int index) {
 }
 
 
-void ProMicroStickLib::interpret(byte input, InputType type, Joystick_ stick) {
+void RigStick::read(byte input, InputType type, Joystick_ stick) {
   String action = "";
 
   for (int n = 0; n <= 7; n++) {
@@ -186,4 +186,8 @@ void ProMicroStickLib::interpret(byte input, InputType type, Joystick_ stick) {
       _currentState[type][n] = state;
     }
   }
+}
+
+void RigStick::setDebug(bool debug) {
+  _debug = debug;
 }

@@ -3,11 +3,11 @@
 #include "Joystick.h"
 
 
-bool debug = true;
+int debug = 0;
 Joystick_ Joystick;
 RigStick stick(debug);
 
-int debugPin = 2;
+int debugPin = 3;
 int clockPin = 7;
 int latchPin = 8;
 int dataPin = 9;
@@ -33,6 +33,8 @@ int maxY = 800;
 int minY = 130;
 int yPos = 0;
 int RXLED = 17;
+
+
 void setup() {
 
   Serial.begin(9600);
@@ -40,8 +42,6 @@ void setup() {
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
   pinMode(dataPin, INPUT);
-  pinMode(debugPin, INPUT_PULLUP);
-  pinMode(RXLED, OUTPUT);  //
   Joystick.setThrottleRange(minThrottle, maxThrottle);
   Joystick.setXAxisRange(minX, maxX);
   Joystick.setYAxisRange(minY, maxY);
@@ -58,22 +58,27 @@ void loop() {
   trgByte = stick.shiftIn(dataPin, clockPin);
   hatByte = stick.shiftIn(dataPin, clockPin);
   dmsByte = stick.shiftIn(dataPin, clockPin);
+
   throttlePos = analogRead(throttlePin);  // invert
   xPos = analogRead(xAxisPin);
   yPos = analogRead(yAxisPin);
   debug = digitalRead(debugPin);
 
   if (debug != LOW) {
-    digitalWrite(RXLED, LOW);
     // debug mode
     stick.setDebug(true);
     print(trgByte, hatByte, dmsByte, throttlePos, xPos, yPos);
-    delay(500);
 
-  } else {
-    digitalWrite(RXLED, HIGH);
+    stick.read(trgByte, 0, Joystick);
+    stick.read(hatByte, 1, Joystick);
+    stick.read(dmsByte, 2, Joystick);
+    
+    delay(50);
+  } 
+  else {
     stick.setDebug(false);
     Serial.println("operation....");
+
     // update pc
     stick.read(trgByte, 0, Joystick);
     stick.read(hatByte, 1, Joystick);
@@ -88,8 +93,5 @@ void loop() {
 }
 
 void print(int trgByte, int hatByte, int dmsByte, int throttlePos, int xPos, int yPos) {
-  Serial.println("\
-    trgByte: " + String(trgByte)
-                 + " hatByte : " + String(hatByte) + " dmsByte: "
-                 + String(dmsByte) + " throttlePos : " + String(throttlePos) + " xPos : " + String(xPos) + " yPos : " + String(yPos));
+  Serial.println(  " th: " + String(throttlePos) + " x: " + String(xPos) + " y:  " + String(yPos));
 }

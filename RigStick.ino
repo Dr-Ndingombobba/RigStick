@@ -8,8 +8,8 @@ Joystick_ Joystick;
 RigStick stick(debug);
 
 int debugPin = 3;
-int clockPin = 7;
-int latchPin = 8;
+int clockPin = 8;
+int latchPin = 7;
 int dataPin = 9;
 
 int throttlePin = A0;
@@ -20,17 +20,17 @@ byte trgByte = 0b11111111;
 byte hatByte = 0b11111111;
 byte dmsByte = 0b11111111;
 
-int maxThrottle = 536;
-int minThrottle = 30;
+int maxThrottle = 280;
+int minThrottle = 636;
 int throttlePos = 0;
 
-int maxX = 950;
-int minX = 100;
+int maxX = 963;
+int minX = 260;
 int xPos = 0;
 
 
-int maxY = 800;
-int minY = 130;
+int maxY = 860;
+int minY = 265;
 int yPos = 0;
 int RXLED = 17;
 
@@ -77,7 +77,7 @@ void loop() {
   } 
   else {
     stick.setDebug(false);
-    Serial.println("operation....");
+    //Serial.println("operation....");
 
     // update pc
     stick.read(trgByte, 0, Joystick);
